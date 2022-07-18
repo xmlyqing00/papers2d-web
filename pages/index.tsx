@@ -23,18 +23,13 @@ export default function Home() {
 
   return (
     <Layout>
-      {/* <div className={"row " + styles.titlePanel}>
-        <div className="col">
-          <p>Papers2D</p>
-        </div>
-      </div> */}
-      <div className={"row " + styles.titlePanel}>
+      <div className={`row ${styles.titlePanel}`}>
         <div className="col">
           <p>Papers2D</p>
         </div>
       </div>
     
-      <form onSubmit={handleSearch} className="row justify-content-center searchPanel">
+      <form onSubmit={handleSearch} className={`row justify-content-center ${styles.searchPanel}`}>
         <div className="col-9 col-sm-7 col-md-5 col-xl-4 col-xxl-4">
           <input 
             className="form-control searchInput" 
@@ -47,6 +42,12 @@ export default function Home() {
           <i className={"bi bi-search searchIcon"} onClick={handleSearch}></i>
         </div>
       </form>
+
+      <div className={`row ${styles.sloganPanel}`}>
+        <div className="col">
+          <p>Discover great papers. Develop new ideas.</p>
+        </div>
+      </div>
 {/* 
         
         <p className={styles.description}>
