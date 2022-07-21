@@ -8,3 +8,7 @@ body {
   border-color: #638c9c;
   box-shadow: 0 0 0 0.25rem rgb(177 197 205 / 50%);
 }
+
+.title-color {
+  color: #46616d;
+}

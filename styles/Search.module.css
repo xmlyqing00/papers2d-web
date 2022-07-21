@@ -1,0 +1,27 @@
+.searchPanel {
+    margin-top: 1rem;
+    margin-left: 1rem;
+    line-height: 2rem;
+}
+
+.searchPanel .title {
+    font-size: 1.8rem;
+    cursor: pointer;
+}
+
+.searchPanel input {
+    border-radius: 0.3rem;
+    font-size: 1rem;
+}
+
+.searchPanel .searchIcon {
+    font-size: 1.7rem;
+    -webkit-appearance: button;
+    -moz-appearance: button;
+    appearance: button;
+  
+    /* text-decoration: none; */
+    color: #46616d;
+    cursor: pointer;
+    /* margin-left: 1rem; */
+}

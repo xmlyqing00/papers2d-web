@@ -21,25 +21,29 @@ export default function Home() {
     })
   }
 
+  const handleChange = e => {
+    setQueryStr(e.target.value)
+  }
+
   return (
     <Layout>
-      <div className={`row ${styles.titlePanel}`}>
+      <div className={`row title-color ${styles.titlePanel}`}>
         <div className="col">
           <p>Papers2D</p>
         </div>
       </div>
     
       <form onSubmit={handleSearch} className={`row justify-content-center ${styles.searchPanel}`}>
-        <div className="col-9 col-sm-7 col-md-5 col-xl-4 col-xxl-4">
+        <div className="col-10 col-sm-10 col-md-8 col-xl-5 col-xxl-4">
           <input 
-            className="form-control searchInput" 
-            onChange={(e) => setQueryStr(e.target.value)}
+            className={`form-control ${styles.searchInput}`} 
+            onChange={handleChange}
             type="text"               
             placeholder="Example:  Object Tracking" 
           />
         </div>
         <div className="col-auto">
-          <i className={"bi bi-search searchIcon"} onClick={handleSearch}></i>
+          <i className={`bi bi-search ${styles.searchIcon}`} onClick={handleSearch}></i>
         </div>
       </form>
 

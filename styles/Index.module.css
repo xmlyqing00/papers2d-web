@@ -1,9 +1,7 @@
 .titlePanel {
-  margin-top: 15rem;
+  margin-top: 12rem;
   text-align: center;
-  line-height: 1.15;
-  font-size: 5rem;
-  color: #46616d;
+  font-size: 4.5rem;
   letter-spacing: 0.3rem;
 }
 
@@ -32,7 +30,7 @@
 
   /* text-decoration: none; */
   color: #46616d;
-
+  cursor: pointer;
   /* margin-left: 1rem; */
 }
 
