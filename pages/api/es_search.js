@@ -45,8 +45,6 @@ async function connectToES() {
             es_http_ca_cert = process.env.ES_LINODE_HTTP_CA_CERT
         }
 
-        console.log(es_http_ca_cert)
-
         return new Client({
             node: es_addr,
             auth: {
