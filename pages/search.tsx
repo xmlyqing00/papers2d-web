@@ -47,12 +47,12 @@ function Header({handleSearch, handleChange, queryStr}) {
 
   return (
     <div className={`row ${styles.searchPanel}`}>
-      <div className="col-1">
+      <div className="col-4 col-md-2 col-lg-2 col-xl-1">
         <Link href="/" >
           <p className={`title-color ${styles.title}`}>Papers2D</p>
         </Link> 
       </div>
-      <div className="col-3">
+      <div className="col-6 col-md-4 col-xl-3">
         <form onSubmit={handleSearch}>
           <input className={`form-control `}
             onChange={handleChange}
@@ -73,7 +73,7 @@ function Header({handleSearch, handleChange, queryStr}) {
 function SearchResults({data}) {
 
   console.log(data)
-  
+
   let title = []
   data.sort(function(a, b) {
     let keyA = new Date(a._source.year)
