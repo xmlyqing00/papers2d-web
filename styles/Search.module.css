@@ -4,6 +4,10 @@
     line-height: 2rem;
 }
 
+.searchPanel .titlePanel {
+    padding: 0;
+}
+
 .searchPanel .title {
     font-size: 1.8rem;
     cursor: pointer;

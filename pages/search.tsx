@@ -47,7 +47,7 @@ function Header({handleSearch, handleChange, queryStr}) {
 
   return (
     <div className={`row ${styles.searchPanel}`}>
-      <div className="col-4 col-md-2 col-lg-2 col-xl-1">
+      <div className={`col-auto ${styles.titlePanel}`}>
         <Link href="/" >
           <p className={`title-color ${styles.title}`}>Papers2D</p>
         </Link> 
@@ -63,7 +63,7 @@ function Header({handleSearch, handleChange, queryStr}) {
         </form>
       </div>
       
-      <div className="col-1">
+      <div className="col-auto">
           <i className={`bi bi-search ${styles.searchIcon}`} onClick={handleSearch}></i>
         </div>
     </div>
