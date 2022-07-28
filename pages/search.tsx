@@ -71,8 +71,10 @@ function Header({handleSearch, handleChange, queryStr}) {
 }
 
 function SearchResults({data}) {
-  let title = []
 
+  console.log(data)
+  
+  let title = []
   data.sort(function(a, b) {
     let keyA = new Date(a._source.year)
     let keyB = new Date(b._source.year);
