@@ -29,30 +29,33 @@ async function connectToES() {
 
     } else {
 
-        let ES_ADDR
-        let ES_USERNAME
-        let ES_PASSWORD
+        let es_addr
+        let es_username
+        let es_password
+        let es_http_ca_cert
 
         if (es_server == "es_server") {
-            ES_ADDR = process.env.ES_AWS_ADDR
-            ES_USERNAME = process.env.ES_AWS_USERNAME
-            ES_PASSWORD = process.env.ES_AWS_PASSWORD
+            es_addr = process.env.ES_AWS_ADDR
+            es_username = process.env.ES_AWS_USERNAME
+            es_password = process.env.ES_AWS_PASSWORD
         } else if (es_server == "es_linode") {
-            ES_ADDR = process.env.ES_LINODE_ADDR
-            ES_USERNAME = process.env.ES_LINODE_USERNAME
-            ES_PASSWORD = process.env.ES_LINODE_PASSWORD
+            es_addr = process.env.ES_LINODE_ADDR
+            es_username = process.env.ES_LINODE_USERNAME
+            es_password = process.env.ES_LINODE_PASSWORD
+            es_http_ca_cert = process.env.ES_LINODE_HTTP_CA_CERT
         }
 
-        const fs = require('fs');
+        console.log(es_http_ca_cert)
 
         return new Client({
-            node: ES_ADDR,
+            node: es_addr,
             auth: {
-                username: ES_USERNAME,
-                password: ES_PASSWORD
+                username: es_username,
+                password: es_password
             },
             ssl: {
-                ca: fs.readFileSync('./http_ca.cert'),
+                // ca: fs.readFileSync('./http_ca.cert'),
+                ca: Buffer.from(es_http_ca_cert, 'base64').toString('ascii')
             }
         })    
     }
