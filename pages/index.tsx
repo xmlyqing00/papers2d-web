@@ -39,7 +39,7 @@ export default function Home() {
             className={`form-control ${styles.searchInput}`} 
             onChange={handleChange}
             type="text"               
-            placeholder="Example:  Object Tracking" 
+            placeholder="try: segmentation" 
           />
         </div>
         <div className="col-auto">

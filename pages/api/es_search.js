@@ -60,7 +60,7 @@ async function connectToES() {
 }
 
 
-export default async (req, res) => {
+export default async function search(req, res) {
     try {
         const client = await connectToES()
         // const { body } = await client.info()
@@ -69,11 +69,25 @@ export default async (req, res) => {
             index: index_name,
             body: {
                 query: {
-                    match: {
-                        title: req.query.key
+                    bool: {
+                        must: {
+                            multi_match: {
+                                query: req.query.key,
+                                fields: ["title^1.5", "abstract"],
+                                type: 'best_fields',
+                                tie_breaker: 0.3
+                            }
+                        },
+                        filter: {
+                            term: {
+                                source: 'official'
+                            }
+                        }
                     }
+                    
                 },
-                size: 10,
+                size: 100,
+                min_score: 3
             }
         })
 

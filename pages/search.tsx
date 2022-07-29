@@ -30,7 +30,9 @@ export default function Search() {
   }
 
   if (error) return <div>Failed to load, {error}</div>
-  if (!data) return <div>Loading...</div>
+  if (!data) return (
+    <div>Loading...</div>
+  )
   
   console.log(data)
   
@@ -48,16 +50,16 @@ function Header({handleSearch, handleChange, queryStr}) {
   return (
     <div className={`row ${styles.searchPanel}`}>
       <div className={`col-auto ${styles.titlePanel}`}>
-        <Link href="/" >
+        <Link href="/" passHref>
           <p className={`title-color ${styles.title}`}>Papers2D</p>
         </Link> 
       </div>
-      <div className="col-6 col-md-4 col-xl-3">
+      <div className="col-5 col-md-4 col-xl-3">
         <form onSubmit={handleSearch}>
           <input className={`form-control `}
             onChange={handleChange}
             type="text"               
-            placeholder="Example: Object Tracking"
+            placeholder="try: segmentation"
             value={queryStr}
           />
         </form>
@@ -70,25 +72,65 @@ function Header({handleSearch, handleChange, queryStr}) {
   )
 }
 
+function DisplayPapers({papers}) {
+
+  let groupedPapers = papers.reduce((r, a) => {
+    r[a._source.year] = r[a._source.year] || []
+    r[a._source.year].push(a)
+    return r
+  }, Object.create(null))
+  groupedPapers = Object.entries(groupedPapers).reverse()
+
+  console.log(groupedPapers)
+
+  const listItems = groupedPapers.map((item: any) => 
+    <li key={item[0]} className="list-group-item">
+      <small>{item[0]}</small>
+      {item[1].map((paper) =>
+        <div key={paper._id}>{paper._source.title} ({paper._source.citations})</div>
+      )}
+    </li>
+  )
+
+  return (
+    <ul className={`list-group list-group-flush ${styles.listGroupHover}`}>
+      {listItems}
+    </ul>
+  )
+}
+
+function DisplayPaperDetails({paper}) {
+  return (
+    <div>
+      <p>Title: </p>
+      <p>Author: </p>
+      <p>Published at:</p>
+      <p>Year: </p>
+    </div>
+  )
+}
+
 function SearchResults({data}) {
 
+  const [selectedPaper, setselectedPaper] = useState(null)
+
   console.log(data)
+  data.sort((a, b) => b._source.year - a._source.year)
 
   let title = []
-  data.sort(function(a, b) {
-    let keyA = new Date(a._source.year)
-    let keyB = new Date(b._source.year);
-    // Compare the 2 dates
-    if (keyA < keyB) return -1;
-    if (keyA > keyB) return 1;
-    return 0;
-  });
-
+  
   data.forEach((item) => {
-    title.push([item._source.title, item._source.year])
+    title.push([item._source.title, item._source.year, item._source.citations])
   })
 
   return (
-    <p>{JSON.stringify(title)}</p>
+    <div className='row'>
+      <div className='col-12 col-md-9'>
+        <DisplayPapers papers={data} />
+      </div>
+      <div className='col-12 col-md-3'>
+        <DisplayPaperDetails paper={selectedPaper}/>
+      </div>
+    </div>
   )
 }
