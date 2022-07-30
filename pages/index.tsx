@@ -34,7 +34,7 @@ export default function Home() {
       </div>
     
       <form onSubmit={handleSearch} className={`row justify-content-center ${styles.searchPanel}`}>
-        <div className="col-9 col-sm-10 col-md-8 col-xl-5 col-xxl-4">
+        <div className={`col-9 col-sm-10 col-md-8 col-xl-5 col-xxl-4 ${styles.searchBox}`}>
           <input 
             className={`form-control ${styles.searchInput}`} 
             onChange={handleChange}

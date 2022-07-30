@@ -12,3 +12,7 @@ body {
 .title-color {
   color: #46616d;
 }
+
+.max-vh-92 {
+  max-height: 92vh;
+}

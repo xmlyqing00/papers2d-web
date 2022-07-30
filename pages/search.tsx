@@ -72,7 +72,44 @@ function Header({handleSearch, handleChange, queryStr}) {
   )
 }
 
-function DisplayPapers({papers}) {
+
+function SearchResults({data}) {
+
+  const [selectedPaper, setSelectedPaper] = useState(null)
+
+  // console.log(data)
+  // data.sort((a, b) => b._source.year - a._source.year)
+  if (data.length == 0) {
+    return (
+      <p>0 results in our database. Please try other keywords</p>
+    )
+  }
+
+
+  return (
+    <div className='row'>
+      <div className='col-12 col-md-9 max-vh-92 overflow-auto'>
+        <DisplayPapers papers={data} setSelectedPaper={setSelectedPaper} />
+      </div>
+      <div className='col-12 col-md-3 max-vh-92 overflow-auto'>
+        <DisplayPaperDetails paper={selectedPaper}/>
+      </div>
+    </div>
+  )
+}
+
+
+function DisplayPapers({papers, setSelectedPaper}) {
+
+  const papersMap = Object.assign(
+    {}, ...papers.map(item => ({
+      [item._id]: item._source}))
+  )
+  
+  const handleSelection = (e, paperId) => {
+    console.log(paperId, papersMap[paperId])
+    setSelectedPaper(papersMap[paperId])
+  }
 
   let groupedPapers = papers.reduce((r, a) => {
     r[a._source.year] = r[a._source.year] || []
@@ -81,13 +118,13 @@ function DisplayPapers({papers}) {
   }, Object.create(null))
   groupedPapers = Object.entries(groupedPapers).reverse()
 
-  console.log(groupedPapers)
-
   const listItems = groupedPapers.map((item: any) => 
     <li key={item[0]} className="list-group-item">
       <small>{item[0]}</small>
       {item[1].map((paper) =>
-        <div key={paper._id}>{paper._source.title} ({paper._source.citations})</div>
+        <div key={paper._id} onClick={event => handleSelection(event, paper._id)}>
+          {paper._source.title} ({paper._source.citations})
+        </div>
       )}
     </li>
   )
@@ -100,36 +137,49 @@ function DisplayPapers({papers}) {
 }
 
 function DisplayPaperDetails({paper}) {
+  if (paper == null) {
+    return (
+      <p>Please click one paper.</p>
+    )
+  }
+
+  const authorsText = paper.authors.join(', ')
+  let year = paper.year
+  if (year == null) {
+    year = paper.published_date_str
+  }
+
+  const googleScholarUrl = "https://scholar.google.com/scholar?q=\"" + paper.title + "\""
+  const githubUrl = "https://github.com/search?q=\"" + paper.title + "\""
+
   return (
     <div>
-      <p>Title: </p>
-      <p>Author: </p>
-      <p>Published at:</p>
-      <p>Year: </p>
-    </div>
-  )
-}
-
-function SearchResults({data}) {
-
-  const [selectedPaper, setselectedPaper] = useState(null)
-
-  console.log(data)
-  data.sort((a, b) => b._source.year - a._source.year)
-
-  let title = []
-  
-  data.forEach((item) => {
-    title.push([item._source.title, item._source.year, item._source.citations])
-  })
-
-  return (
-    <div className='row'>
-      <div className='col-12 col-md-9'>
-        <DisplayPapers papers={data} />
+      <div>
+        <h4>{paper.title}</h4>
       </div>
-      <div className='col-12 col-md-3'>
-        <DisplayPaperDetails paper={selectedPaper}/>
+      <div>
+        <strong>Authors: </strong> {authorsText}
+      </div>
+      <div>
+        <strong>Publisher: </strong> {paper.org} ({year})
+      </div>
+      <div>
+        <strong>Citations: </strong> {paper.citations}
+      </div>
+      <div>
+        <strong>Links: </strong> 
+        <a href={paper.url_pdf} target="_blank">
+          <i className={`bi bi-filetype-pdf ${styles.linkIcon}`}></i>
+        </a>
+        <a href={googleScholarUrl} target="_blank">
+          <i className={`bi bi-google ${styles.linkIcon}`}></i>
+        </a>
+        <a href={githubUrl} target="_blank">
+          <i className={`bi bi-github ${styles.linkIcon}`}></i>
+        </a>
+      </div>
+      <div>
+        <strong>Abstract: </strong> {paper.abstract}
       </div>
     </div>
   )

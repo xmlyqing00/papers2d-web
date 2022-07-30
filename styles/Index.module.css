@@ -18,6 +18,10 @@
   font-size: 1.6rem;
 }
 
+.searchBox {
+  max-width: 730px;
+}
+
 .searchInput {
   border-radius: 0.8rem;
   font-size: 1.1rem;
@@ -27,6 +31,8 @@
   -webkit-appearance: button;
   -moz-appearance: button;
   appearance: button;
+  padding-top: 0.1rem;
+  margin-left: -0.6rem;
 
   /* text-decoration: none; */
   color: #46616d;
