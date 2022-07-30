@@ -168,13 +168,13 @@ function DisplayPaperDetails({paper}) {
       </div>
       <div>
         <strong>Links: </strong> 
-        <a href={paper.url_pdf} target="_blank">
+        <a href={paper.url_pdf} target="_blank" rel="noreferrer">
           <i className={`bi bi-filetype-pdf ${styles.linkIcon}`}></i>
         </a>
-        <a href={googleScholarUrl} target="_blank">
+        <a href={googleScholarUrl} target="_blank" rel="noreferrer">
           <i className={`bi bi-google ${styles.linkIcon}`}></i>
         </a>
-        <a href={githubUrl} target="_blank">
+        <a href={githubUrl} target="_blank" rel="noreferrer">
           <i className={`bi bi-github ${styles.linkIcon}`}></i>
         </a>
       </div>
