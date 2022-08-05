@@ -13,6 +13,10 @@ body {
   color: #46616d;
 }
 
-.max-vh-92 {
-  max-height: 92vh;
+.max-vh-91 {
+  max-height: 91vh;
+}
+
+.w-33 {
+  width: 33% !important;
 }

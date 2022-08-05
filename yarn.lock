@@ -1177,6 +1177,11 @@ json5@^1.0.1:
     array-includes "^3.1.5"
     object.assign "^4.1.2"
 
+kmeansjs@^0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/kmeansjs/-/kmeansjs-0.0.3.tgz#080ca267ae5c9bbc8031456fabcb414f27256c3d"
+  integrity sha512-rZQ/xf2v6Mocngyu8flXXX90KAWS6aYtc0ZAVdpUFq5EHzKpkDMQqQqvQF98hGdCAH+ZUE6p58RkTwLRJElIYw==
+
 language-subtag-registry@~0.3.2:
   version "0.3.22"
   resolved "https://registry.yarnpkg.com/language-subtag-registry/-/language-subtag-registry-0.3.22.tgz#2e1500861b2e457eba7e7ae86877cbd08fa1fd1d"
@@ -1296,6 +1301,13 @@ next@12.0.9:
     "@next/swc-win32-arm64-msvc" "12.0.9"
     "@next/swc-win32-ia32-msvc" "12.0.9"
     "@next/swc-win32-x64-msvc" "12.0.9"
+
+node-kmeans@^1.1.9:
+  version "1.1.9"
+  resolved "https://registry.yarnpkg.com/node-kmeans/-/node-kmeans-1.1.9.tgz#ca445d46302f5e76d33f8dfefa895d61f7956ced"
+  integrity sha512-qZiuD4ab4cvsSWQSccWzLb4j1cHlm6wjGiWrbhCPZweVzpfcWBQ2CMqK4YBtJJ3OhK27NkZ1PKiLlZ52Z///cQ==
+  dependencies:
+    underscore "^1.9.1"
 
 normalize-path@^3.0.0, normalize-path@~3.0.0:
   version "3.0.0"
@@ -1761,6 +1773,11 @@ unbox-primitive@^1.0.2:
     has-bigints "^1.0.2"
     has-symbols "^1.0.3"
     which-boxed-primitive "^1.0.2"
+
+underscore@^1.9.1:
+  version "1.13.4"
+  resolved "https://registry.yarnpkg.com/underscore/-/underscore-1.13.4.tgz#7886b46bbdf07f768e0052f1828e1dcab40c0dee"
+  integrity sha512-BQFnUDuAQ4Yf/cYY5LNrK9NCJFKriaRbD9uR1fTeXnBeoa97W0i41qkZfGO9pSo8I5KzjAcSY2XYtdf0oKd7KQ==
 
 uri-js@^4.2.2:
   version "4.4.1"

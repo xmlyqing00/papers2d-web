@@ -48,6 +48,15 @@
     /* margin-left: 1rem; */
 }
 
-.listGroupHover li:hover{
-    background: rgba(138, 158, 167, 0.2);
+.linkIconGoogleScholar {
+    padding-top: 0rem !important;
+    margin-top: -0.4rem;
+    margin-left: -0.05rem;
+    margin-right: -0.15rem;
+}
+
+.paperItem:hover{
+    background: rgba(138, 158, 167, 0.7);
+    box-shadow: 0 0.5rem 1rem rgba(0,0,0,.15)!important;
+    border-radius: 0.2rem;
   }
