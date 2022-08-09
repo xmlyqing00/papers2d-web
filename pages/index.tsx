@@ -27,7 +27,7 @@ export default function Home() {
 
   return (
     <Layout>
-      <div className={`row title-color ${styles.titlePanel}`}>
+      <div className={`row color-tree ${styles.titlePanel}`}>
         <div className="col">
           <p>Papers2D</p>
         </div>

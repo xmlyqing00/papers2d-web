@@ -23,7 +23,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
-, "pages/api/es_search.js"  ],
+, "pages/api/es_search.js", "libs/es.js"  ],
   "exclude": [
     "node_modules"
   ]

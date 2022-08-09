@@ -55,8 +55,22 @@
     margin-right: -0.15rem;
 }
 
-.paperItem:hover{
+.paperItem:hover {
     background: rgba(138, 158, 167, 0.7);
     box-shadow: 0 0.5rem 1rem rgba(0,0,0,.15)!important;
     border-radius: 0.2rem;
-  }
+}
+
+.btnLoad {
+    font-size: 0.9rem;
+    padding: 0.2rem 0.6rem;
+    margin-right: 0.1rem;
+
+    color: #46616d;
+    border-color: #46616d;
+}
+
+.btnLoad:hover {
+    color: #fff;
+    background-color: #46616d;
+}
