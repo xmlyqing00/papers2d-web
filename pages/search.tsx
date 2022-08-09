@@ -12,7 +12,12 @@ import kmeans from "node-kmeans"
 
 const fetcher = (url: string, key: string) => fetch(`${url}?key=${key}`).then((res) => res.json())
 // const fetcher = (url: string, key: string) => fetch(url, {method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(key)}).then((res) => res.json())
-const fetcherPapers = (url: string, paperIds) => fetch(url, {body: JSON.stringify(paperIds)}).then((res) => res.json())
+const fetcherPapers = (url: string, paperIds) => 
+  fetch(url, {
+    method: "POST", 
+    headers: {"Content-Type": "application/json"}, 
+    body: JSON.stringify(paperIds)
+  }).then((res) => res.json())
 
 
 export default function Search() {
@@ -80,8 +85,6 @@ function Header({handleSearch, handleChange, queryStr}) {
 
 function SearchResults({data}) {
 
-  const [selectedPaper, setSelectedPaper] = useState(null)
-
   // console.log(data)
   // data.sort((a, b) => b._source.year - a._source.year)
   if (data.length == 0) {
@@ -90,13 +93,30 @@ function SearchResults({data}) {
     )
   }
 
+  const [selectedPaper, setSelectedPaper] = useState(null)
+  
+  const papersMap = Object.assign(
+    {}, ...data.map(item => ({
+      [item._id]: item._source}))
+  )
+
+  const loadRefsCitations = (e, paperId) => {
+    e.preventDefault()
+    const paperRefs = papersMap[paperId].refs
+    console.log(paperId, papersMap[paperId].refs)
+    console.log(paperId, papersMap[paperId].citedby)
+    // const {data, error} = useSWR(['/api/es_search', router.query.key], fetcher)
+  }
+
+  // const {newPapers, error} = useSWR(['/api/es_mget', router.query.key], fetcher)
+
   return (
     <div className='row'>
       <div className='col-12 col-md-9 max-vh-91 overflow-auto'>
-        <DisplayPapers papers={data} setSelectedPaper={setSelectedPaper} />
+        <DisplayPapers papers={data} papersMap={papersMap} setSelectedPaper={setSelectedPaper} />
       </div>
       <div className='col-12 col-md-3 max-vh-91 overflow-auto'>
-        <DisplayPaperDetails paper={selectedPaper}/>
+        <DisplayPaperDetails paper={selectedPaper} loadRefsCitations={loadRefsCitations}/>
       </div>
     </div>
   )
@@ -172,15 +192,10 @@ function PaperGroups({ papers, handleSelection }) {
   )
 }
 
-function DisplayPapers({papers, setSelectedPaper}) {
-
-  const papersMap = Object.assign(
-    {}, ...papers.map(item => ({
-      [item._id]: item._source}))
-  )
+function DisplayPapers({ papers, papersMap, setSelectedPaper }) {
   
   const handleSelection = (e, paperId) => {
-    event.preventDefault()
+    e.preventDefault()
     // console.log(paperId, papersMap[paperId])
     setSelectedPaper(papersMap[paperId])
   }
@@ -208,16 +223,11 @@ function DisplayPapers({papers, setSelectedPaper}) {
   )
 }
 
-function DisplayPaperDetails({paper}) {
+function DisplayPaperDetails({ paper, loadRefsCitations }) {
   if (paper == null) {
     return (
       <p>Please click one paper.</p>
     )
-  }
-
-  const loadRefsCitations = (e, paperId) => {
-    e.preventDefault()
-    // const {data, error} = useSWR(['/api/es_search', router.query.key], fetcher)
   }
 
   const authorsText = paper.authors.join(', ')
