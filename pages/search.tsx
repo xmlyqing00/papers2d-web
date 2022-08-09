@@ -11,6 +11,8 @@ import kmeans from "node-kmeans"
 
 
 const fetcher = (url: string, key: string) => fetch(`${url}?key=${key}`).then((res) => res.json())
+// const fetcher = (url: string, key: string) => fetch(url, {method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(key)}).then((res) => res.json())
+const fetcherPapers = (url: string, paperIds) => fetch(url, {body: JSON.stringify(paperIds)}).then((res) => res.json())
 
 
 export default function Search() {

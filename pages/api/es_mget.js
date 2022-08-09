@@ -1,15 +1,16 @@
 import {index_name, connectToES} from "../../libs/es_database"
 
 
-export default async function search(req, res) {
-    console.log(index_name)
+export default async function mget(req, res) {
 
     try {
-        const client = await connectToES()
+        const client = connectToES()
         // const { body } = await client.info()
         // console.log(body)
-        // const results = await client.search({
-        //     index: index_name,
+        const results = await client.mget({
+
+        })
+            // index: index_name,
         //     body: {
         //         query: {
         //             bool: {
