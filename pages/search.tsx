@@ -39,14 +39,14 @@ export default function Search() {
     setQueryStr(e.target.value)
   }
 
-  console.log(data + "123132")
+  // console.log(data + "123132")
 
   if (error) return <div>Failed to load, {error}</div>
   if (!data) return (
     <div>Loading...</div>
   )
   
-  console.log(data)
+  // console.log(data)
   
   return (
     <Layout>
@@ -89,7 +89,7 @@ function SearchResults({data}) {
 
   const [selectedPaper, setSelectedPaper] = useState(null)
 
-  console.log(data.length)
+  // console.log(data.length)
   // data.sort((a, b) => b._source.year - a._source.year)
   if (data == null || data.length == 0) {
     return (
