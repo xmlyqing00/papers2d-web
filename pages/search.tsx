@@ -39,6 +39,8 @@ export default function Search() {
     setQueryStr(e.target.value)
   }
 
+  console.log(data + "123132")
+
   if (error) return <div>Failed to load, {error}</div>
   if (!data) return (
     <div>Loading...</div>
@@ -85,15 +87,15 @@ function Header({handleSearch, handleChange, queryStr}) {
 
 function SearchResults({data}) {
 
-  // console.log(data)
+  const [selectedPaper, setSelectedPaper] = useState(null)
+
+  console.log(data.length)
   // data.sort((a, b) => b._source.year - a._source.year)
-  if (data.length == 0) {
+  if (data == null || data.length == 0) {
     return (
       <p>0 results in our database. Please try other keywords</p>
     )
   }
-
-  const [selectedPaper, setSelectedPaper] = useState(null)
   
   const papersMap = Object.assign(
     {}, ...data.map(item => ({

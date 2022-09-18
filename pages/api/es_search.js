@@ -2,6 +2,7 @@ import {index_name, connectToES} from "../../libs/es_database"
 
 
 export default async function search(req, res) {
+    // console.log("1231")
     try {
         const client = connectToES()
         // const { body } = await client.info()
@@ -35,6 +36,7 @@ export default async function search(req, res) {
         res.status(200).json(results.body.hits.hits)
 
     } catch (error) {
+        console.log("lalal;a")
         res.status(error.statusCode || 500).json({ error: error.message})
     }
 }
