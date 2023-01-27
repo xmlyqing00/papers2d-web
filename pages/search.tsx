@@ -96,7 +96,7 @@ function SearchResults({data}) {
       <p>0 results in our database. Please try other keywords</p>
     )
   }
-  
+
   const papersMap = Object.assign(
     {}, ...data.map(item => ({
       [item._id]: item._source}))

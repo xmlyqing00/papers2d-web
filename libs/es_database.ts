@@ -54,7 +54,8 @@ function connectToES() {
                 password: es_password
             },
             ssl: {
-                ca: Buffer.from(es_http_ca_cert, 'base64').toString('ascii')
+                ca: Buffer.from(es_http_ca_cert, 'base64').toString('ascii'),
+                rejectUnauthorized: true
             }
         })    
     }
