@@ -139,13 +139,13 @@ function PaperGroups({ papers, handleSelection }) {
       })
     }
     // console.log("call use effect", papers)
-    if (papers.length > 5) clusterPapers()
+    // if (papers.length > 5) clusterPapers()
   }, [papers.length])
 
   // console.log("papers", papers)
 
   if (paperClusters.length == 0) {
-    // papers.sort((a, b) => b._source.citations - a._source.citations)
+    papers.sort((a, b) => b._source.citations - a._source.citations)
 
     return (
       papers.map((paper, idx) =>
@@ -155,7 +155,7 @@ function PaperGroups({ papers, handleSelection }) {
             onClick={event => handleSelection(event, paper._id)}
           >
             {/* <i className="bi bi-arrow-right-short"></i>  */}
-            <i className="bi bi-caret-right color-tree"></i> 
+            <i className="bi bi-caret-right-fill color-tree"></i> 
             &nbsp; 
             {paper._source.title} <small>({paper._source.citations} citations)</small>
           </div>
@@ -164,6 +164,8 @@ function PaperGroups({ papers, handleSelection }) {
     )
   } 
   
+  // The following code never runs
+
   paperClusters.sort((a, b) => b.clusterInd.length - a.clusterInd.length)
   
   const x = paperClusters.map((oneCluster, clusterIdx) => {
@@ -174,24 +176,29 @@ function PaperGroups({ papers, handleSelection }) {
     return (
       <div className="col" key={clusterIdx}>
         <small>Group #{clusterIdx}</small>
-        {papersInOneCluster.map((paper, paperIdx) =>
-          <div 
-            className={styles.paperItem} 
-            onClick={event => handleSelection(event, paper._id)}
-            key={paperIdx}
-          >
-            {/* <i className="bi bi-arrow-right-short"></i>  */}
-            <i className="bi bi-caret-right-fill color-tree"></i> 
-            &nbsp; 
-            {paper._source.title} <small>({paper._source.citations} citations)</small>
-          </div>
+        {papersInOneCluster.map((paper, paperIdx) => {
+          let item_style = null
+          if (paperIdx % 2 == 0) {
+            item_style = styles.paperItemRef
+          }
+          return (
+            <div 
+              className={`${styles.paperItem} ${item_style}`}
+              onClick={event => handleSelection(event, paper._id)}
+              key={paperIdx}
+            >
+              {/* <i className="bi bi-arrow-right-short"></i>  */}
+              <i className="bi bi-caret-right-fill color-tree"></i> 
+              &nbsp; 
+              {paper._source.title} <small>({paper._source.citations} citations)</small>
+            </div>
+          )
+        }
         )}
       </div>
     )
   })
-  return (
-    x  
-  )
+  
 }
 
 function DisplayPapers({ papers, papersMap, setSelectedPaper }) {

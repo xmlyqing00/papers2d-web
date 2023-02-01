@@ -61,6 +61,10 @@
     border-radius: 0.2rem;
 }
 
+.paperItemRef {
+    color: red
+}
+
 .btnLoad {
     font-size: 0.9rem;
     padding: 0.2rem 0.6rem;
