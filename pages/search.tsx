@@ -127,77 +127,76 @@ function SearchResults({data}) {
 
 function PaperGroups({ papers, handleSelection }) {
 
-  const [paperClusters, setPaperClusters] = useState([])
-  useEffect(() => {
-    const clusterPapers = async () => {
-      const embeddings = papers.map(item => item._source.embedding)
-      kmeans.clusterize(embeddings, {k: 3, seed: 1222}, (err, res) => {
-        if (err) console.error(err)
-        if (res) {
-          setPaperClusters(res)
-        }
-      })
-    }
-    // console.log("call use effect", papers)
-    // if (papers.length > 5) clusterPapers()
-  }, [papers.length])
+  // const [paperClusters, setPaperClusters] = useState([])
+  // useEffect(() => {
+  //   const clusterPapers = async () => {
+  //     const embeddings = papers.map(item => item._source.embedding)
+  //     kmeans.clusterize(embeddings, {k: 3, seed: 1222}, (err, res) => {
+  //       if (err) console.error(err)
+  //       if (res) {
+  //         setPaperClusters(res)
+  //       }
+  //     })
+  //   }
+  //   // console.log("call use effect", papers)
+  //   // if (papers.length > 5) clusterPapers()
+  // }, [papers.length])
 
   // console.log("papers", papers)
 
-  if (paperClusters.length == 0) {
-    papers.sort((a, b) => b._source.citations - a._source.citations)
+  // if (paperClusters.length == 0) {
+  papers.sort((a, b) => b._source.citations - a._source.citations)
 
-    return (
-      papers.map((paper, idx) =>
-        <div className="col" key={idx}>
-          <div 
-            className={styles.paperItem} 
-            onClick={event => handleSelection(event, paper._id)}
-          >
-            {/* <i className="bi bi-arrow-right-short"></i>  */}
-            <i className="bi bi-caret-right-fill color-tree"></i> 
-            &nbsp; 
-            {paper._source.title} <small>({paper._source.citations} citations)</small>
-          </div>
+  return (
+    papers.map((paper, idx) =>
+      <div className="col" key={idx}>
+        <div 
+          className={styles.paperItem} 
+          onClick={event => handleSelection(event, paper._id)}
+        >
+          <i className="bi bi-caret-right-fill color-tree"></i> 
+          &nbsp; 
+          {paper._source.title} <small>({paper._source.citations} citations)</small>
         </div>
-      )
-    )
-  } 
-  
-  // The following code never runs
-
-  paperClusters.sort((a, b) => b.clusterInd.length - a.clusterInd.length)
-  
-  const x = paperClusters.map((oneCluster, clusterIdx) => {
-
-    const papersInOneCluster = oneCluster.clusterInd.map(idx => papers[idx])
-    papersInOneCluster.sort((a, b) => b._source.citations - a._source.citations)
-
-    return (
-      <div className="col" key={clusterIdx}>
-        <small>Group #{clusterIdx}</small>
-        {papersInOneCluster.map((paper, paperIdx) => {
-          let item_style = null
-          if (paperIdx % 2 == 0) {
-            item_style = styles.paperItemRef
-          }
-          return (
-            <div 
-              className={`${styles.paperItem} ${item_style}`}
-              onClick={event => handleSelection(event, paper._id)}
-              key={paperIdx}
-            >
-              {/* <i className="bi bi-arrow-right-short"></i>  */}
-              <i className="bi bi-caret-right-fill color-tree"></i> 
-              &nbsp; 
-              {paper._source.title} <small>({paper._source.citations} citations)</small>
-            </div>
-          )
-        }
-        )}
       </div>
     )
-  })
+  )
+  // } 
+  
+  // The following code that use the K-means result never runs
+
+  // paperClusters.sort((a, b) => b.clusterInd.length - a.clusterInd.length)
+  
+  // const x = paperClusters.map((oneCluster, clusterIdx) => {
+
+  //   const papersInOneCluster = oneCluster.clusterInd.map(idx => papers[idx])
+  //   papersInOneCluster.sort((a, b) => b._source.citations - a._source.citations)
+
+  //   return (
+  //     <div className="col" key={clusterIdx}>
+  //       <small>Group #{clusterIdx}</small>
+  //       {papersInOneCluster.map((paper, paperIdx) => {
+  //         let item_style = null
+  //         if (paperIdx % 2 == 0) {
+  //           item_style = styles.paperItemRef
+  //         }
+  //         return (
+  //           <div 
+  //             className={`${styles.paperItem} ${item_style}`}
+  //             onClick={event => handleSelection(event, paper._id)}
+  //             key={paperIdx}
+  //           >
+  //             {/* <i className="bi bi-arrow-right-short"></i>  */}
+  //             <i className="bi bi-caret-right-fill color-tree"></i> 
+  //             &nbsp; 
+  //             {paper._source.title} <small>({paper._source.citations} citations)</small>
+  //           </div>
+  //         )
+  //       }
+  //       )}
+  //     </div>
+  //   )
+  // })
   
 }
 
