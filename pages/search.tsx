@@ -39,14 +39,10 @@ export default function Search() {
     setQueryStr(e.target.value)
   }
 
-  // console.log(data + "123132")
-
   if (error) return <div>Failed to load, {error}</div>
   if (!data) return (
     <div>Loading...</div>
   )
-  
-  // console.log(data)
   
   return (
     <Layout>
@@ -84,12 +80,23 @@ function Header({handleSearch, handleChange, queryStr}) {
   )
 }
 
+export function SearchPapers({paperIds}) {
+  
+  const router = useRouter()
+  const {data, error} = useSWR(['/api/es_mget', router.query.key], fetcherPapers)
+
+  if (error) return <div>Failed to load, {error}</div>;
+  if (!data) return <div>Loading...</div>;
+  
+  console.log("result data from mget: ", data)
+  
+}
 
 function SearchResults({data}) {
 
   const [selectedPaper, setSelectedPaper] = useState(null)
+  const [refsCitations, setRefsCitations] = useState()
 
-  // console.log(data.length)
   // data.sort((a, b) => b._source.year - a._source.year)
   if (data == null || data.length == 0) {
     return (
@@ -105,17 +112,19 @@ function SearchResults({data}) {
   const loadRefsCitations = (e, paperId) => {
     e.preventDefault()
     const paperRefs = papersMap[paperId].refs
-    console.log(paperId, papersMap[paperId].refs)
-    console.log(paperId, papersMap[paperId].citedby)
+    // const paperCitations = papersMap[paperId].citedby
+    
+    setRefsCitations(paperRefs)
+    
+    // console.log(paperId, papersMap[paperId].refs)
+    // console.log(paperId, papersMap[paperId].citedby)
     // const {data, error} = useSWR(['/api/es_search', router.query.key], fetcher)
   }
-
-  // const {newPapers, error} = useSWR(['/api/es_mget', router.query.key], fetcher)
 
   return (
     <div className='row'>
       <div className='col-12 col-md-9 max-vh-91 overflow-auto'>
-        <DisplayPapers papers={data} papersMap={papersMap} setSelectedPaper={setSelectedPaper} />
+        <DisplayPapers papers={data} papersMap={papersMap} refsCitations={refsCitations} setSelectedPaper={setSelectedPaper} />
       </div>
       <div className='col-12 col-md-3 max-vh-91 overflow-auto'>
         <DisplayPaperDetails paper={selectedPaper} loadRefsCitations={loadRefsCitations}/>
@@ -200,13 +209,15 @@ function PaperGroups({ papers, handleSelection }) {
   
 }
 
-function DisplayPapers({ papers, papersMap, setSelectedPaper }) {
+function DisplayPapers({ papers, papersMap, refsCitations, setSelectedPaper }) {
   
   const handleSelection = (e, paperId) => {
     e.preventDefault()
     // console.log(paperId, papersMap[paperId])
     setSelectedPaper(papersMap[paperId])
   }
+
+  console.log(refsCitations)
 
   let groupedPapers = papers.reduce((r, a) => {
     r[a._source.year] = r[a._source.year] || []
