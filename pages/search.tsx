@@ -39,6 +39,14 @@ export default function Search() {
     setQueryStr(e.target.value)
   }
 
+  // const handleSearchPapers = async (event) => {
+  //     event.preventDefault()
+  //     router.push({
+  //       pathname: '/search',
+  //        // query: {key: event.target.query.value}
+  //     })
+    // }
+
   if (error) return <div>Failed to load, {error}</div>
   if (!data) return (
     <div>Loading...</div>
@@ -80,17 +88,6 @@ function Header({handleSearch, handleChange, queryStr}) {
   )
 }
 
-export function SearchPapers({paperIds}) {
-  
-  const router = useRouter()
-  const {data, error} = useSWR(['/api/es_mget', router.query.key], fetcherPapers)
-
-  if (error) return <div>Failed to load, {error}</div>;
-  if (!data) return <div>Loading...</div>;
-  
-  console.log("result data from mget: ", data)
-  
-}
 
 function SearchResults({data}) {
 
