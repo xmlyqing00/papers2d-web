@@ -7,30 +7,44 @@ import Head from 'next/head'
 import Link from 'next/link'
 import Image from 'next/image'
 import kmeans from "node-kmeans"
+import { timeStamp } from 'console'
 // import kmeans from 'kmeansjs'
 
 
 const fetcher = (url: string, key: string) => fetch(`${url}?key=${key}`).then((res) => res.json())
 // const fetcher = (url: string, key: string) => fetch(url, {method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(key)}).then((res) => res.json())
-const fetcherPapers = (url: string, paperIds) => 
-  fetch(url, {
-    method: "POST", 
-    headers: {"Content-Type": "application/json"}, 
-    body: JSON.stringify(paperIds)
-  }).then((res) => res.json())
 
+const fetcherPapers = (url: string, paperIds) => 
+fetch(url, {
+  method: "POST", 
+  headers: {"Content-Type": "application/json"}, 
+  body: JSON.stringify(paperIds)
+}).then((res) => res.json())
+
+function RenderOnClick() {
+  const [shouldRender, setShouldRender] = React.useState(false);
+  function handleClick() {
+    setShouldRender(true);
+  }
+  return (
+    <>
+      <button disabled={shouldFetch} onClick={handleClick}>Fetch</button>
+      {shouldRender && <FetchAndRender />}
+    </>
+  );
+}
 
 export default function Search() {
   
   const router = useRouter()
-  const {data, error} = useSWR(['/api/es_search', router.query.key], fetcher)
+  const {data: searchRes, error: searchErr} = useSWR(['/api/es_search', router.query.key], fetcher)
+
   const [queryStr, setQueryStr] = useState(router.query.key)
   const handleSearch = async (event) => {
     if (queryStr && queryStr.length > 0) {
       event.preventDefault()
       router.push({
         pathname: '/search',
-        // query: {key: event.target.query.value}
         query: {key: queryStr}
       })
     }
@@ -39,23 +53,26 @@ export default function Search() {
     setQueryStr(e.target.value)
   }
 
-  // const handleSearchPapers = async (event) => {
-  //     event.preventDefault()
-  //     router.push({
-  //       pathname: '/search',
-  //        // query: {key: event.target.query.value}
-  //     })
-    // }
+  const [histortyOfLoadRefs, setHistortyOfLoadRefs] = useState([])
+  const click = e => {
+    histortyOfLoadRefs.push(e.paper_id) 
+    setHistortyOfLoadRefs(histortyOfLoadRefs)
+  }
+  
+  const paperIdNotEmpty = histortyOfLoadRefs && histortyOfLoadRefs.length > 0;
 
-  if (error) return <div>Failed to load, {error}</div>
-  if (!data) return (
+  const {data: mgetRes, error: mgetErr} = useSWR(paperIdNotEmpty ? ['/api/es_mget', histortyOfLoadRefs] : null, fetcherPapers)
+
+  if (searchErr) return <div>Failed to load, {searchErr}</div>
+  if (mgetErr) return <div>Failed to load, {mgetErr}</div>
+  if (!searchRes) return (
     <div>Loading...</div>
   )
   
   return (
     <Layout>
       <Header handleSearch={handleSearch} handleChange={handleChange} queryStr={queryStr}/> 
-      <SearchResults data={data} />
+      <SearchResults data={searchRes} newData={mgetRes}/>
     </Layout>
   )
 }
@@ -89,7 +106,7 @@ function Header({handleSearch, handleChange, queryStr}) {
 }
 
 
-function SearchResults({data}) {
+function SearchResults({data, newData}) {
 
   const [selectedPaper, setSelectedPaper] = useState(null)
   const [refsCitations, setRefsCitations] = useState()
@@ -110,9 +127,23 @@ function SearchResults({data}) {
     e.preventDefault()
     const paperRefs = papersMap[paperId].refs
     // const paperCitations = papersMap[paperId].citedby
+
     
     setRefsCitations(paperRefs)
     
+    const router = useRouter()
+    const {data: mgetRes, error: mgetErr} = useSWR(['/api/es_mget', paperId], fetcherPapers)
+
+    const handleSearchPapers = async (event) => {
+      event.preventDefault()
+      router.push({
+        pathname: '/search',
+        // query: {key: event.target.query.value}
+      })
+    }
+    
+    handleSearchPapers
+    console.log("result data from mget: ", mgetRes)    
     // console.log(paperId, papersMap[paperId].refs)
     // console.log(paperId, papersMap[paperId].citedby)
     // const {data, error} = useSWR(['/api/es_search', router.query.key], fetcher)
