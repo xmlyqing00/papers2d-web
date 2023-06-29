@@ -22,7 +22,7 @@ function connectToES() {
         return new Client({
             cloud: {
                 id: ES_CLOUD_ID,
-            },
+            }, 
             auth: {
                 username: ES_CLOUD_USERNAME,
                 password: ES_CLOUD_PASSWORD,
